@@ -9,8 +9,13 @@ class Api(object):
         self.runner_args = runner_args
 
         for command in commands:
-            if hasattr(self, command.name):
-                log.warn('')
 
-            setattr(self, command.name, command.execute)
-            setattr(getattr(self, command.name), '__doc__', command.help)
+            if hasattr(self, command.module_name):
+                log.warn('{} conflicts with existing attribute'.format(
+                    command.name
+                ))
+                continue
+
+            run = lambda **arguments: command.execute(self.servers, arguments)
+
+            setattr(self, command.module_name, run)

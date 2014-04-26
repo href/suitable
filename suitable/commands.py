@@ -14,7 +14,7 @@ class RunnerCommand(object):
             'module_name': self.module_name,
             'module_args': arguments,
             'pattern': 'all',
-            'targets': ' '.join(
+            'host_list': ' '.join(
                 servers
             )
         }
@@ -34,7 +34,7 @@ def list_ansible_modules():
     modules = []
 
     for path in paths:
-        modules.extend(m for m in os.listdir(p) if m not in BLACKLIST_EXTS)
+        modules.extend(m for m in os.listdir(path) if m not in BLACKLIST_EXTS)
 
     return modules
 
